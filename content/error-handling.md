@@ -1,6 +1,6 @@
 # Error handling
 
-By default, once the framework has been booted, all exceptions and PHP errors/warnings/notices etc will be caught by the framework's error handler.
+By default, once the framework has been booted, all uncaught exceptions and PHP errors, warnings, notices etc. will be caught by the framework's error handler.
 
 The error handler is highly configurable and makes it easy to define a global behaviour for exceptions of different types.
 
