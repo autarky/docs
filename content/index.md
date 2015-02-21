@@ -32,9 +32,13 @@ This will set up a minimalist project for you to build on top of. You can show t
 
 Keep in mind that during version 0.x a lot of breaking changes may happen in minor version incrementations. The [releases](https://github.com/autarky/framework/releases) page contains upgrade instructions and changelogs.
 
+## Contributing
+
+Autarky is [hosted on GitHub](https://github.com/autarky). The main repository is [autarky/framework](https://github.com/autarky/framework) - please use this repository for reporting issues. See the repository/repositories CONTRIBUTING file for more information.
+
 ## Contact
 
-Open an issue on GitHub if you have any problems or suggestions.
+Feel free to open an issue on GitHub if you have any problems or suggestions. Alternatively (or additionally), you may want to ask on [Stack Overflow](http://stackoverflow.com) using the ["autarky" tag](http://stackoverflow.com/questions/ask?tags=autarky).
 
 Contact [Andreas Lutro](https://github.com/anlutro) personally for potential security issues.
 
