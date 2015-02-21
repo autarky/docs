@@ -13,6 +13,10 @@ body {
 p, li {
 	max-width: 40em;
 }
+h1, h2, h3, h4, h5, h6 {
+	margin-top: 1.5em;
+	margin-bottom: .5em;
+}
 
 a {
 	color: #111;
@@ -125,6 +129,9 @@ pre > code {
 /**
  * Main content
  */
+.main > h1:first-child {
+	margin-top: .5em;
+}
 .main a {
 	text-decoration: underline;
 }
