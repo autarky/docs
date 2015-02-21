@@ -82,6 +82,10 @@ pre > code {
 	padding: 0;
 }
 
+.chapters li a, .links li a {
+	display: block;
+}
+
 @media screen and (min-width: 900px) and (min-height: 600px) {
 	.sidebar {
 		position: fixed;
@@ -94,7 +98,6 @@ pre > code {
 	.links {
 		bottom: 0;
 	}
-
 	.main, .footer {
 		margin-left: 250px;
 	}
