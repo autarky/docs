@@ -4,9 +4,9 @@
 
 Autarky comes with a cascading environment-based config data system that makes it easy to manage a global and environment-specific configurations.
 
-First of all, take a look at the closure that is `$env` in the default skeleton app/start.php file. The return value of the closure passed in here should be a string, and this will be the name of the environment the application runs under. This can be strings such as 'production', 'staging', 'local' and so on.
+First of all, take a look at the closure that is `$env` in the default skeleton `app/start.php` file. The return value of the closure passed in here should be a string, and this will be the name of the environment the application runs under. This can be strings such as 'production', 'staging', 'local' and so on.
 
-All the files located directly in app/config are always loaded first. Then, if app/config/{ENVIRONMENT} exists, files located there are loaded and override the global values. The config arrays are merged using a simple `array_merge`, so only top-level array keys can be overriden.
+All the files located directly in `app/config` are always loaded first. Then, if the directory `app/config/{ENVIRONMENT}` exists, files located there are loaded and override the global values. The config arrays are merged using a simple `array_merge`, so only top-level array keys can be overriden.
 
 If you're using any packages that have service providers that add their own config files via `$config->addNamespace('my-namespace', $path)`, you can override this package's config files by putting files into `app/config/my-namespace` or `app/config/{ENVIRONMENT}/my-namespace`.
 
