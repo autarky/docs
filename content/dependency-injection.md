@@ -27,8 +27,9 @@ As a basic example of how you can use the container's powers to your advantage: 
 This functionality is not just limited to controllers. Almost any time you pass the name of a class as a string to something inside the framework, it will be resolved from the container. This includes, but is not limited to:
 
 - Controllers
-- Filters and responders
 - Event listeners
+- Configurators
+- Error handlers
 
 ## The `new` keyword
 

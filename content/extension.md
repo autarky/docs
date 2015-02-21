@@ -4,9 +4,7 @@ Autarky provides a pretty bare minimum of what is needed to get you going with P
 
 ## Adding functionality
 
-As an example, let's say you want to use Eloquent in your application. The recommended course of action here is to write your own service provider, in which you share an instance of `Illuminate\Database\Capsule\Manager`.
-
-An official example on how to implement it can be found [here](https://github.com/illuminate/database#usage-instructions).
+As an example, let's say you want to use Eloquent, the Laravel ORM, in your application. The recommended course of action here is to write your own service provider, in which you share an instance of the class `Illuminate\Database\Capsule\Manager`. An official example on how to use this class can be found [here](https://github.com/illuminate/database#usage-instructions).
 
 All we need to do is bind the manager class as a shared instance onto the container inside the service provider's `register()` method, like this:
 

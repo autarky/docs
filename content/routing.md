@@ -2,8 +2,6 @@
 
 Autarky comes with a very simplistic router out of the box, based on top of [nikic's FastRoute](https://github.com/nikic/FastRoute). Much of the syntax and rules are the same, especially those relating to route parameters.
 
-**Note:** As FastRoute is primarily a showcase of speedy router implementations and not necessarily a clean/solid router library, the routing part of the framework is the most likely to change in the future.
-
 Routes can be added in two ways - either programatically somewhere that won't be invoked until the application is booted (like a configurator class, or a config callback):
 
 	$router->addRoute('GET', '/', ['MyController', 'exampleAction'], 'first.route');

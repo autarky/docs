@@ -18,7 +18,7 @@ Typically your handlers will be split into two types - the ones returning null a
 
 When the manager reaches the end of the list, if no handler has returned a non-null value, the **default error handler** is invoked. This handler is Symfony's error handler, which renders a grey page saying "Whoops, something went wrong". If debug mode is enabled in the `config/app` config file, you also get information about the exception that was thrown.
 
-> If you install the package `flip/whoops`, the default error handler will use Whoops instead of Symfony's error handler as the default (but only in debug mode).
+> If you install the package `filp/whoops`, the default error handler will use Whoops instead of Symfony's error handler as the default (but only in debug mode).
 
 ## Adding error handlers
 
