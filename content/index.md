@@ -1,8 +1,12 @@
 # Autarky
 
-Autarky is a minimalist framework designed for the right mix of flexibility, speed of development and clean object oriented programming. Heavily inspired by Python's Flask, Autarky is a stripped down implementation of all the favourite things from my favourite frameworks.
+Autarky is a minimalist framework designed for the right mix of flexibility, speed of development and clean object oriented programming. Heavily inspired by Python's Flask, Autarky is a stripped down implementation of all the favourite things from various other PHP frameworks.
 
 I hope you'll find that it's less invasive than other micro- and macro-frameworks, but still has an ease of rapid development for prototyping.
+
+> Autarky is currently at version 0.8, which means breaking changes can happen as according to [SemVer](http://semver.org/)'s 4th rule. However, the API can be considered relatively stable at this point (february 2015), with the worst breaking changes being classes or config keys renaming.
+
+## Goals and vision
 
 The main goal of the framework is to provide a thin, unopiniated routing and dependency injection layer that wraps around Symfony's HttpFoundation component. Anything that goes on beyond the routing is entirely up to the programmer - you simply map URLs to classes and methods, the configurable dependency injecting container resolves these classes and calls the methods, and the return value is turned into a HTTP response.
 
@@ -38,7 +42,7 @@ Autarky is [hosted on GitHub](https://github.com/autarky). The main repository i
 
 ## Contact
 
-Feel free to open an issue on GitHub if you have any problems or suggestions. Alternatively (or additionally), you may want to ask on [Stack Overflow](http://stackoverflow.com) using the ["autarky" tag](http://stackoverflow.com/questions/ask?tags=autarky).
+Feel free to open an issue on GitHub if you have any problems or suggestions. Alternatively (or additionally), you may want to ask on [Stack Overflow](http://stackoverflow.com) using the ["autarky" tag](http://stackoverflow.com/questions/ask?tags=autarky,php).
 
 Contact [Andreas Lutro](https://github.com/anlutro) personally for potential security issues.
 
