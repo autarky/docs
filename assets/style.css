@@ -30,7 +30,11 @@ code {
 	border: 1px solid #ccc;
 	padding: 0 4px;
 	display: inline-block;
-	font-size: 14px;
+	font-size: 80%;
+}
+h1 code, h2 code, h3 code {
+	background: none;
+	border: none;
 }
 pre {
 	max-width: 50em;
@@ -41,6 +45,7 @@ pre > code {
 	background: #ddd;
 	border: 1px solid #ccc;
 	word-break: break-word;
+	font-size: 14px;
 }
 @media screen and (max-width: 899px) {
 	pre > code {
