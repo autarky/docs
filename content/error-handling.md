@@ -1,19 +1,37 @@
 # Error handling
 
-Autarky provides a way to manage a stack of error handlers.
+By default, once the framework has been booted, all exceptions and PHP errors/warnings/notices etc will be caught by the framework's error handler.
 
-At the core of this system is the `Autarky\Errors\ErrorHandlerManager` class, with which you'll make most of your interactions. You can get the instance of this class via `$app->getErrorHandler()` - for example, in a service provider:
+The error handler is highly configurable and makes it easy to define a global behaviour for exceptions of different types.
 
-	$errorHandlerManager = $this->app->getErrorHandler();
+## How it works
 
-The manager keeps a doubly linked list of error handlers. This means you can add handlers to the end of the list or at the start. When an exception is thrown, the manager goes through the list and invokes all the appropriate handlers until something is returned from one of them.
+The error handler (`Autarky\Errors\ErrorHandlerManager`) keeps a doubly linked list of handlers. When an exception is thrown anywhere in your application and isn't caught by a try/catch block, it's passed to the the manager.
 
-If nothing is returned from any handlers, the grey default Symfony "Whoops, something went wrong" page will be displayed.
+When the manager is passed an exception, it iterates through its list of handlers. For each handler, it first checks if that handler handles the particular type of exception thrown. If it doesn't, it immediately moves on to the next handler in the list.
+
+If the handler does handle the particular type of exception, the handler is invoked. If the handler returns a non-null value, the manager tries converting this value into a HTTP response and returns it to the end user - no further handlers are called.
+
+If the handler is invoked but returns null, the manager continues going through the list of handlers.
+
+Typically your handlers will be split into two types - the ones returning null and the ones returning a response. An example of handlers that return null would be a handler that writes information about the exception to a log file. An example of handlers taht return a value would be a handler that renders a pretty page telling the user what went wrong and what they can do about it.
+
+When the manager reaches the end of the list, if no handler has returned a non-null value, the **default error handler** is invoked. This handler is Symfony's error handler, which renders a grey page saying "Whoops, something went wrong". If debug mode is enabled in the `config/app` config file, you also get information about the exception that was thrown.
+
+> If you install the package `flip/whoops`, the default error handler will use Whoops instead of Symfony's error handler as the default (but only in debug mode).
 
 ## Adding error handlers
 
-The easiest and recommended way to add error handlers is via the `app/config` file. Each handler added here will be called in the order they are listed. The first one to return true from `$handler->handles($exception)` and return a a non-null value from `$handler->handle($exception)` will be the value returned to the end user.
+The easiest and recommended way to add your own error handlers is via the `app.error_handlers` array in the `config/app` file. The handler classes listed here are added to the manager's list in the order you specify them.
 
-If the handler either doesn't handle the specific type of exception or returns null from `handle()`, the next handler in the stack will be called. If none of the handlers return a non-null value, the default error handler will be invoked.
+The classes must implement the `Autarky\Errors\ErrorHandlerInterface`. This interface contains two methods:
 
-You can easily create your own error handlers - just implement the `Autarky\Errors\ErrorHandlerInterface` and add the class name to the `error_handlers` config array and you're set.
+`handles(Exception $exception)` - returns true or false depending on if the handler should hanlde the exception or not.
+
+`handle(Exception $exception)` - handles the exception and returns either a response-like value or null.
+
+You can also add handlers programmatically. Since the handler list is doubly linked, you can either insert handlers to the beginning (top) of the list, corresponding with high priority, or the end (bottom), corresponding with low priority.
+
+	$manager = $app->getErrorHandler();
+	$manager->prependHandler($myHandler); // high priority handler
+	$manager->appendHandler($myHandler); // low priority handler
