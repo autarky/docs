@@ -2,17 +2,17 @@
 
 Autarky comes with an integrated implementation of Twig, the most mature and fully-featured PHP templating library at the moment.
 
-> Twig integration is a separate package. `composer require autarky/twig-templating` if you don't already have it installed.
+> Twig integration is a separate package since version 0.8. `composer require autarky/twig-templating` if you don't already have it installed.
 
-The templating engine can be accessed via the class Autarky\TwigTemplating\TemplatingEngine, but the easiest way is to use the `render($template, array $data)` method which comes with the base controller clase.
+The templating engine can be accessed via the class `Autarky\TwigTemplating\TemplatingEngine`, but the easiest way is to use the `render($template, array $data)` method which comes with the base controller class.
 
 Simply do `return $this->render('path/to/view.twig', [..])` from a controller, and the view's contents will be rendered and put into a HTTP response with status code 200.
 
-By default the framework comes with a Twig environment loading view files from your server's filesystem. Put a file called `hello.twig` in app/templates and you can do `$this->render('hello.twig')`. The path to the template is relative to the templates directory.
+By default the framework comes with a Twig environment loading view files from your server's filesystem. Put a file called `hello.twig` in `app/templates` and you can do `$this->render('hello.twig')`. The path to the template is relative to the templates directory.
 
 ## Twig functions
 
-In addition to Twig's built-in functionality', a few Autarky-specific functions are added.
+In addition to Twig's built-in functionality, a few Autarky-specific functions are added.
 
 `url('route.name', [param1, param2, ...])` will return the URL to the given route with the given parameters.
 
