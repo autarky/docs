@@ -1,0 +1,43 @@
+# Autarky
+
+Autarky is a minimalist framework designed for the right mix of flexibility, speed of development and clean object oriented programming. Heavily inspired by Python's Flask, Autarky is a stripped down implementation of all the favourite things from my favourite frameworks.
+
+I hope you'll find that it's less invasive than other micro- and macro-frameworks, but still has an ease of rapid development for prototyping.
+
+The main goal of the framework is to provide a thin, unopiniated routing and dependency injection layer that wraps around Symfony's HttpFoundation component. Anything that goes on beyond the routing is entirely up to the programmer - you simply map URLs to classes and methods, the configurable dependency injecting container resolves these classes and calls the methods, and the return value is turned into a HTTP response.
+
+The framework does not come with a database layer, mail library, cache layer, authentication service, queue services, translation service and so on. The implementation and integration of these are entirely left up to you, whether you want to write them yourself or pick a third party library, all you should need is a service provider class that binds the services to the container and you're good to go.
+
+Features and design ideas include:
+
+- No procedural code, everything can be wrapped in classes and callbacks
+- Intelligent service/dependency injection container - automatic dependency injection via typehinting in constructor parameters, powerful factory definitions
+- Utilizes [Composer](https://getcomposer.org/) for package management and autoloading
+- Utilizes [Symfony's HttpFoundation](http://symfony.com/doc/current/components/http_foundation/introduction.html) for easy handling of responses and requests as well as [session management](http://symfony.com/doc/current/components/http_foundation/sessions.html)
+- Comes with an implementation of nikic's [FastRoute](https://github.com/nikic/FastRoute), a [very performant router](http://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html)
+- Application-level middleware using [StackPHP](http://stackphp.com/)
+- Seamless integration with [Twig](http://twig.sensiolabs.org/), the most robust and mature templating engine available in PHP
+- Connection manager for management and lazy instantiation of PDO objects
+- Easily testable - implementing HttpKernelInterface means you can utilize Symfony's BrowserKit and [DomCrawler](http://symfony.com/doc/current/components/dom_crawler.html) components, which makes system-level/functional testing a breeze. [Check out an example.](https://github.com/autarky/skeleton/blob/master/tests/ExampleTest.php)
+
+## Creating a project
+
+This repository contains the framework's core classes and tests. To create a new project using Autarky, we need to use [Composer](https://getcomposer.org/):
+
+	composer create-project autarky/skeleton -s dev --prefer-dist /path/to/project
+
+This will set up a minimalist project for you to build on top of. You can show the demo page in your browser by setting up PHP's built-in web server and open "localhost:8000" in your favourite browser:
+
+	php -S localhost:8000 -t /path/to/project/web
+
+Keep in mind that during version 0.x a lot of breaking changes may happen in minor version incrementations. The [releases](https://github.com/autarky/framework/releases) page contains upgrade instructions and changelogs.
+
+## Contact
+
+Open an issue on GitHub if you have any problems or suggestions.
+
+Contact [Andreas Lutro](https://github.com/anlutro) personally for potential security issues.
+
+## License
+
+The contents of this repository is released under the [MIT license](http://opensource.org/licenses/MIT).
