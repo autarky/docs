@@ -85,6 +85,9 @@ pre > code {
 .chapters li a, .links li a {
 	display: block;
 }
+.chapters a.active {
+	text-decoration: underline;
+}
 
 @media screen and (min-width: 900px) and (min-height: 600px) {
 	.sidebar {

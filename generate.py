@@ -63,13 +63,17 @@ def generate_html_files():
 			'<h1 id="{}">'.format(header_id))
 
 		title = 'Autarky Documentation'
-		if 'index' not in path:
+		if 'index' in path:
+			chapter_chapters = chapters.replace('href=""', 'href="" class="active"')
+		else:
 			title = md_content.split('\n')[0].replace('# ', '') + ' - ' + title
+			chapter_chapters = chapters.replace('href="'+header_id+'"', 'href="'+header_id+'" class="active"')
+
 
 		output = template.format(
 			title=title,
 			content=content.strip(),
-			chapters=chapters,
+			chapters=chapter_chapters,
 			links=links,
 			base_href=base_href
 		)
