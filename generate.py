@@ -81,7 +81,7 @@ def generate_html_files():
 
 	chapters = chapters \
 		.replace('href=""', 'href="introduction"') \
-		.replace('href="', 'href="/all#')
+		.replace('href="', 'href="all#')
 
 	output = template.format(
 		title='Autarky Documentation',
