@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from os import listdir
-from os.path import isfile, join, dirname, basename
+from os.path import realpath, isfile, join, dirname, basename
 from shutil import copyfile
 from sys import argv
 from markdown import markdown
@@ -25,6 +25,12 @@ if len(argv) > 1:
 	base_href = argv[1]
 else:
 	base_href = 'http://localhost'
+if not base_href.endswith('/'):
+	base_href += '/'
+
+print('root_path:', root_path)
+print('build_path:', build_path)
+print('base_href:', base_href)
 
 
 def get_content_files():
@@ -74,8 +80,8 @@ def generate_html_files():
 			f.write(output)
 
 	chapters = chapters \
-		.replace('href="/"', 'href="/introduction"') \
-		.replace('href="/', 'href="/all#')
+		.replace('href=""', 'href="introduction"') \
+		.replace('href="', 'href="/all#')
 
 	output = template.format(
 		title='Autarky Documentation',
