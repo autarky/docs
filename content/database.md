@@ -22,24 +22,24 @@ To emulate this with the connection config, simply add the following to a Postgr
 
 	'options' => "'--client_encoding=UTF8'",
 
-#### SQLite
+### SQLite
 
 SQLite only requires a `path` key, which should be the full path to the SQLite database file.
 
-#### Postgres (pgsql)
+### Postgres (pgsql)
 
 You can specify `dbname`, `username`, `password`, `host` and `port`.
 
-#### MSSQL (sqlsrv)
+### MSSQL (sqlsrv)
 
 `Database`, `username` and `password` should be specified. If you need to specify a port, simply add a comma behind the `Server` value:
 
 	'Server' => 'localhost,1521'
 
-#### MySQL
+### MySQL
 
 You can specify `host`, `port`, `dbname`, `username`, `password` and `charset`.
 
-#### Other drivers
+### Other drivers
 
 Other drivers may or may not work. Try to pass an array of all the DSN key/value pairs as specified by the php.net documentation.
