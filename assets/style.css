@@ -1,3 +1,5 @@
+@import url(http://fonts.googleapis.com/css?family=PT+Sans:400,700);
+
 /**
  * Generic styling
  */
@@ -6,16 +8,26 @@ body {
 	margin: 0;
 	background: #EFEBE9;
 	color: #444;
-	font-family: sans-serif;
-	font-size: 16px;
+	font-family: 'PT sans', sans-serif;
+	font-size: 17px;
 	line-height: 1.6;
 }
 p, li {
 	max-width: 40em;
 }
 h1, h2, h3, h4, h5, h6 {
+	font-weight: 400;
 	margin-top: 1.5em;
 	margin-bottom: .5em;
+}
+h1 {
+	font-size: 40px;
+}
+h2 {
+	font-size: 30px;
+}
+h3 {
+	font-size: 20px;
 }
 
 a {
@@ -70,12 +82,11 @@ pre > code {
 	padding: 12px 16px;
 }
 
-
 /**
  * Sidebar(s)
  */
 .sidebar h1 {
-	font-size: 20px;
+	font-size: 24px;
 	margin-top: 1.5em;
 	margin-bottom: .5em;
 }
@@ -86,7 +97,8 @@ pre > code {
 	padding: 0;
 }
 
-.chapters li a, .links li a {
+.chapters a, .links a {
+	color: #444;
 	display: block;
 }
 .chapters a.active {
@@ -135,4 +147,3 @@ pre > code {
 .main a {
 	text-decoration: underline;
 }
-
