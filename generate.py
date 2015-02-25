@@ -67,7 +67,8 @@ def generate_html_files():
 			chapter_chapters = chapters.replace('href=""', 'href="" class="active"')
 		else:
 			title = md_content.split('\n')[0].replace('# ', '') + ' - ' + title
-			chapter_chapters = chapters.replace('href="'+header_id+'"', 'href="'+header_id+'" class="active"')
+			chapter_chapters = chapters.replace('href="'+header_id+'"',
+				'href="'+header_id+'" class="active"')
 
 
 		output = template.format(
