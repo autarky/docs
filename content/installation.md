@@ -18,6 +18,14 @@ This will set up a sample project for you and install all dependencies. If you c
 
 Read some of the example files located in the skeleton project and you should be able to figure out a lot just based on that.
 
+If you create a lot of new projects or just want to type less, you can add the following to `~/.bash_aliases` in any unix-like environment:
+
+	function autarky-new {
+		composer create-project autarky/skeleton -s dev --prefer-dist $@
+	}
+
+Now you can do `autarky-new /path/to/project`.
+
 ## Project structure
 
 The default project structure looks like this:
