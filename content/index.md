@@ -4,7 +4,7 @@ Autarky is a minimalist PHP framework for self-sufficient programmers. It doesn'
 
 Heavily inspired by Python's Flask, Autarky is a stripped down implementation of all the best features of various PHP projects. I hope you'll find that it's less invasive, more loosely coupled and less bloated than other frameworks, but is still intuitive and makes it easy to get started on new projects quickly.
 
-> Autarky is currently at version 0.8, which means breaking changes can happen as according to [SemVer](http://semver.org/)'s 4th rule. However, the API can be considered relatively stable at this point (february 2015), with the worst breaking changes being classes or config keys renaming.
+> Autarky is currently at version 0.x, which means breaking changes can happen as according to [SemVer](http://semver.org/)'s 4th rule.
 
 ## Goals and vision
 

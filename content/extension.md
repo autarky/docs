@@ -10,17 +10,23 @@ All we need to do is bind the manager class as a shared instance onto the contai
 
 	use Illuminate\Database\Capsule\Manager;
 
-	$container = $this->app->getContainer();
+	class EloquentProvider extends \Autarky\Providers\AbstractProvider
+	{
+		public function register()
+		{
+			$container = $this->app->getContainer();
 
-	$container->define('Illuminate\Database\Capsule\Manager', function() {
-		$capsule = new Capsule;
-		$capsule->addConnection([...]);
-		return $capsule;
-	});
+			$container->define('Illuminate\Database\Capsule\Manager', function() {
+				$capsule = new Capsule;
+				$capsule->addConnection([...]);
+				return $capsule;
+			});
 
-	$container->share('Illuminate\Database\Capsule\Manager');
+			$container->share('Illuminate\Database\Capsule\Manager');
+		}
+	}
 
-If we want Eloquent to be available we also need to run a special method. We do this by adding a `config()` callback:
+If we want Eloquent to be available we also need to run a special method. We do this by adding a `config()` callback to the `register()` method block:
 
 	$this->app->config(function($app) {
 		$this->app->resolve('Illuminate\Database\Capsule\Manager')
