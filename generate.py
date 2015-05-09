@@ -2,7 +2,7 @@
 
 from os import listdir
 from os.path import realpath, isfile, join, dirname, basename
-from shutil import copyfile
+from shutil import copytree
 from sys import argv
 from markdown import markdown
 
@@ -103,12 +103,7 @@ def generate_html_files():
 
 def copy_assets():
 	assets_path = join(root_path, 'assets')
-	for filename in listdir(assets_path):
-		path = join(assets_path, filename)
-		print('IN: ', path)
-		out_path = join(build_path, basename(path))
-		print('OUT:', out_path)
-		copyfile(path, out_path)
+	copytree(assets_path, join(build_path, 'assets'))
 
 
 def main():
