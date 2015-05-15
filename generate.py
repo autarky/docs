@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
 from os import listdir
-from os.path import realpath, isfile, join, dirname, basename
+from os.path import realpath, isdir, isfile, join, dirname, basename
 from shutil import copytree, rmtree
 from sys import argv
 from markdown import markdown
 
-root_path = dirname(__file__)
+root_path = realpath(dirname(__file__))
 build_path = join(root_path, 'build')
 content_files = [
 	'index.md',
@@ -104,7 +104,8 @@ def generate_html_files():
 def copy_assets():
 	src = join(root_path, 'assets')
 	dest = join(build_path, 'assets')
-	rmtree(dest)
+	if isdir(dest):
+		rmtree(dest)
 	copytree(src, dest)
 
 
