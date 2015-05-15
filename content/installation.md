@@ -93,3 +93,50 @@ The skeleton project comes with a few third-party dependencies that are not nece
 `symfony/yaml` enables YAML config files. If you convert all your config files to PHP, you can remove this.
 
 `vlucas/dotenv` makes it easy to store environment-specific variables outside of your codebase. If you don't want to do this, you can remove the package.
+
+## Configuring a webserver
+
+You'll most likely want to put your website behind a webserver. The following are bare minimums of what you need to make an Autarky project work with common web servers. These are merely examples and should probably not be used in production without additions. Read up on the configuration options available in your web server.
+
+### Apache 2
+
+The smallest possible virtualhost config you can create looks like this:
+
+```
+<VirtualHost *:80>
+	ServerName mysite.com
+	DocumentRoot /path/to/autarky-project/web
+</VirtualHost>
+```
+
+To get pretty URLs, you need to add the following configuration either inside a `<Location />` block in the virtualhost, or in a .htaccess file located in the web directory.
+
+```
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteRule ^ index.php [L]
+</IfModule>
+```
+
+### Nginx
+
+The following example assumes you have PHP-FPM set up and running.
+
+```
+server {
+	server_name mysite.com;
+	root /path/to/autarky-project/web;
+
+	location / {
+		try_files $uri /index.php$is_args$args;
+	}
+
+	location /index.php {
+		include fastcgi_params;
+		fastcgi_pass 127.0.0.1:9000; # or whatever your FCGI socket is
+		fastcgi_split_path_info ^(.+\.php)(/.+)$;
+		fastcgi_index index.php;
+	}
+}
