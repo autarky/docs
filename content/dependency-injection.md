@@ -14,15 +14,14 @@ This resolving works recursively, so you can have deep hierarchies of cascading 
 
 As a basic example of how you can use the container's powers to your advantage: Controllers (classes mapped to routes) in Autarky are always resolved from the container, which means that any type-hinted argument in the controller's constructor will be automatically resolved. If the dependency has dependencies, the same process is repeated for those.
 
-	class MyController extends Controller
-	{
-		protected $dep;
-
-		public function __construct(MyDependency $dep)
-		{
-			$this->dep = $dep;
-		}
+```php
+class MyController extends Controller {
+	protected $dependency;
+	public function __construct(MyDependency $dependency) {
+		$this->dependency = $dependency;
 	}
+}
+```
 
 This functionality is not just limited to controllers. Almost any time you pass the name of a class as a string to something inside the framework, it will be resolved from the container. This includes, but is not limited to:
 
@@ -41,45 +40,40 @@ You're also making it near impossible to have shared instances of a class in you
 
 Consider the following example:
 
-	class MyService
-	{
-		public function __construct()
-		{
-			$this->pdo = new PDO('some dsn');
-			$this->validator = new MyValidator();
-		}
+```php
+class MyService {
+	public function __construct() {
+		$this->pdo = new PDO('some dsn');
+		$this->validator = new MyValidator();
 	}
+}
 
-	class MyController extends Controller
-	{
-		public function __construct()
-		{
-			$this->service = new MyService();
-		}
-		public function someAction()
-		{
-			// do things with $this->service
-		}
+class MyController extends Controller {
+	public function __construct() {
+		$this->service = new MyService();
 	}
+	public function someAction() {
+		// do things with $this->service
+	}
+}
+```
 
 This can easily be rewritten to use dependency injection, with the added bonus of being unit testable:
 
-	class MyService
-	{
-		public function __construct(PDO $pdo, MyValidator $validator)
-		{
-			$this->pdo = $pdo;
-			$this->validator = $validator;
-		}
+```php
+class MyService {
+	public function __construct(PDO $pdo, MyValidator $validator) {
+		$this->pdo = $pdo;
+		$this->validator = $validator;
 	}
+}
 
-	class MyController extends Controller
-	{
-		public function __construct(MyService $service)
-		{
-			$this->service = $service;
-		}
+class MyController extends Controller {
+	public function __construct(MyService $service) {
+		$this->service = $service;
 	}
+}
+```
 
 ## Configuring dependency injection
 
@@ -87,43 +81,55 @@ The above example will work fine if MyDependency has no dependencies, or all its
 
 The most common configuration is to define a factory for a class, so that each time a specific class is asked for via the container, that factory is called. This is done via the `define()` method.
 
-	$container->define('MyNamespace\MyClass', function($container) {
-		return new MyClass(/* ... */);
-	});
-	$container->define('MyNamespace\MyClass', ['MyClassFactory', 'makeMyClass']);
+```php
+$container->define('MyNamespace\MyClass', function($container) {
+	return new MyClass(/* ... */);
+});
+$container->define('MyNamespace\MyClass', ['MyClassFactory', 'makeMyClass']);
+```
 
 If you have a class that you want to act like a singleton, in that it will only be constructed once and the same instance will be re-used across your entire application, use the `share($class)` method. This can be used with or without a factory as shown above.
 
-	$container->share('MyNamespace\MySingleton');
+```php
+$container->share('MyNamespace\MySingleton');
+```
 
 Sometimes you want to type-hint against an interface in your constructor parameters and let the container decide which implementation to use. This is done via the `alias($original, $alias)` method. This method can be used to swap different implementations as well, it does not need to be restricted to interfaces or abstract classes.
 
-	$container->alias('MyNamespace\MyImplementation', 'MyNamespace\MyInterface');
+```php
+$container->alias('MyNamespace\MyImplementation', 'MyNamespace\MyInterface');
+```
 
 The most useful one is `$container->params($class, array $params)`, which let you configure what classes/variables are passed to a specific class's constructor method.
 
-	$container->params('MyNamespace\MySpecificClass', [
-		'MyNamespace\MyInterface' => 'MyNamespace\OtherImplementation',
-		'$nonClassArgument' => 'foobar',
-	]);
+```php
+$container->params('MyNamespace\MySpecificClass', [
+	'MyNamespace\MyInterface' => 'MyNamespace\OtherImplementation',
+	'$nonClassArgument' => 'foobar',
+]);
+```
 
 ## Factory definitions (new in 0.7)
 
 In your application, some classes will have multiple instances that you need to keep track of. A good example of this may be PDO objects. You may want to use different PDO connections for different things. Autarky's container makes this easy out of the box - assuming you have the connections configured in `app/config/database`, you can do the following:
 
-	$container->resolve('MyClass', [
-		'PDO' => $container->getFactory('PDO', ['$connection' => 'custom']),
-	]);
+```php
+$container->resolve('MyClass', [
+	'PDO' => $container->getFactory('PDO', ['$connection' => 'custom']),
+]);
+```
 
 Under the hood, this still utilises reflection. It does not matter which position the PDO argument is in MyClass's constructor - in fact, the PDO argument could be dropped from the constructor altogether and you could still resolve it like this without anything breaking.
 
 The reason this works is there is a ConnectionManager class with a `makePdo` method that takes a `$connection` argument. The ConnectionManager stores any number of PDO instances, and will return the one corresponding to the connection name passed to `makePdo`. The `makePdo` method is then registered as the factory for the PDO class, so that any time you try to resolve the PDO class from the container, this factory method is called. Here's a simplified code snippet of how it's done:
 
-	$container->define('ConnectionManager', function() {
-		return new ConnectionManager(/* ... */);
-	});
-	$container->share('ConnectionManager');
-	$container->define('PDO', ['ConnectionManager', 'makePdo']);
+```php
+$container->define('ConnectionManager', function() {
+	return new ConnectionManager(/* ... */);
+});
+$container->share('ConnectionManager');
+$container->define('PDO', ['ConnectionManager', 'makePdo']);
+```
 
 ## Avoiding reflection (new in 0.7)
 
@@ -131,15 +137,21 @@ If you define a factory that isn't a closure, by default, reflection is going to
 
 Reflection can cause some overhead, or may not be suitable in every situation. It is possible to bypass it entirely by creating factory objects manually.
 
-	$factory = $container->makeFactory('MyClass');
-	$factory = $container->makeFactory(['MyClassFactory', 'makeObject']);
-	$factory = $container->makeFactory(function(/* ... */) {});
+```php
+$factory = $container->makeFactory('MyClass');
+$factory = $container->makeFactory(['MyClassFactory', 'makeObject']);
+$factory = $container->makeFactory(function(/* ... */) {});
+```
 
 Once you have a factory object, you can add arguments to it.
 
-	$factory->addClassArgument('$object', 'OtherClass', $required);
-	$factory->addScalarArgument('$scalar', 'string', $required, $default);
+```php
+$factory->addClassArgument('$object', 'OtherClass', $required);
+$factory->addScalarArgument('$scalar', 'string', $required, $default);
+```
 
 Once you've added all your arguments, add it to the container, and you can now resolve your class out of it, which will call the factory.
 
-	$container->define('MyClass', $factory);
+```php
+$container->define('MyClass', $factory);
+```

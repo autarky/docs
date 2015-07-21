@@ -4,14 +4,18 @@ Autarky comes with a very simplistic router out of the box, based on top of [nik
 
 Routes can be added in two ways - either programatically somewhere that won't be invoked until the application is booted (like a configurator class, or a config callback):
 
-	$router->addRoute('GET', '/', ['MyController', 'exampleAction'], 'first.route');
+```php
+$router->addRoute('GET', '/', ['MyController', 'exampleAction'], 'first.route');
+```
 
 Or by adding them to the routes.yml config file:
 
-	second.route:
-		method:  'GET'
-		path:    '/bar/{v1}'
-		handler: ['MyController', 'otherAction']
+```yaml
+second.route:
+  method:  'GET'
+  path:    '/bar/{v1}'
+  handler: ['MyController', 'otherAction']
+```
 
 The method you map the route to in your controller should accept the route parameters as arguments.
 
@@ -27,50 +31,60 @@ The router has a few useful events you can add listeners to: The "match", "befor
 
 "Before" and "after" event listeners are the most common ones. These have to be given a name and manually added to a route:
 
-	$config = [
-		'before' => ['before_name'],
-		'after'  => ['after_name']
-	];
-	$router->group($config, function($router) {
-		$router->addRoute(/* ... */);
-	});
+```php
+$config = [
+	'before' => ['before_name'],
+	'after'  => ['after_name']
+];
+$router->group($config, function($router) {
+	$router->addRoute(/* ... */);
+});
+```
 
 Or in your `routes.yml` config:
 
-	my_route:
-		method:  'GET'
-		path:    '/foo/bar/baz'
-		handler: ['MyController', 'myAction']
-		before:  ['before_action']
+```yaml
+my_route:
+  method:  'GET'
+  path:    '/foo/bar/baz'
+  handler: ['MyController', 'myAction']
+  before:  ['before_action']
+```
 
 The "before" event is fired before a route's controller/handler is invoked. In this event listener it is possible to stop the router from invoking the controller at all by setting a response, or replacing the controller.
 
 The event object gives you access to the route object, controller, and request object via the methods `getRoute()`, `getController()`, and `getRequest()`. You can set a response or the controller via the `setResponse()` and `setController()` methods.
 
-	$router->onBefore('before_name', function($event) {
-		if (something()) {
-			$event->setResponse(new Response('replacing the original response'));
-		} else if (somethingelse()) {
-			$event->setController(['SomeOtherController', 'someAction']);
-		}
-	});
+```php
+$router->onBefore('before_name', function($event) {
+	if (something()) {
+		$event->setResponse(new Response('replacing the original response'));
+	} elseif (somethingelse()) {
+		$event->setController(['SomeOtherController', 'someAction']);
+	}
+});
+```
 
 The "after" event is fired after a route's controller has been invoked, and can be used to manipulate or replace the response object.
 
 The event object gives you the access to the route and request as in "before" listeners, but also the respone object via `getResponse()` and `setResponse()`.
 
-	$router->onAfter('after_name', function($event) {
-		$response = $event->getResponse();
-		if (something()) {
-			$response->headers->set('foo', 'bar');
-		} else if (somethingelse()) {
-			$event->setResponse(new Response('replacing the original response'));
-		}
-	});
+```php
+$router->onAfter('after_name', function($event) {
+	$response = $event->getResponse();
+	if (something()) {
+		$response->headers->set('foo', 'bar');
+	} else if (somethingelse()) {
+		$event->setResponse(new Response('replacing the original response'));
+	}
+});
+```
 
 There are also **global** before/after listeners, which don't need a name and are run on every route.
 
-	$router->globalOnBefore(function($event) {});
-	$router->globalOnAfter(function($event) {});
+```php
+$router->globalOnBefore(function($event) {});
+$router->globalOnAfter(function($event) {});
+```
 
 The "match" event is the least useful one - it is fired when a route is matched with an URL and can be used for manipulation of the route object if you really know what you're doing.

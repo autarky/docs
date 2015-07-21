@@ -26,6 +26,8 @@ The classes must implement the `Autarky\Errors\ErrorHandlerInterface`. This inte
 
 You can also add handlers programmatically. Since the handler list is doubly linked, you can either insert handlers to the beginning (top) of the list, corresponding with high priority, or the end (bottom), corresponding with low priority.
 
-	$manager = $app->getErrorHandler();
-	$manager->prependHandler($myHandler); // high priority handler
-	$manager->appendHandler($myHandler); // low priority handler
+```php
+$manager = $app->getErrorHandler();
+$manager->prependHandler($myHandler); // high priority handler
+$manager->appendHandler($myHandler); // low priority handler
+```

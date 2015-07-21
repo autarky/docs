@@ -28,21 +28,23 @@ In addition to Twig's built-in functionality, a few Autarky-specific functions a
 
 You can listen for events and modify template data at run-time.
 
-	use Autarky\TwigTemplating\Event\CreatingTemplateEvent;
-	use Autarky\TwigTemplating\Event\RenderingTemplateEvent;
+```php
+use Autarky\TwigTemplating\Event\CreatingTemplateEvent;
+use Autarky\TwigTemplating\Event\RenderingTemplateEvent;
 
-	$engine = $app->resolve('Autarky\TwigTemplating\TemplatingEngine');
-	$engine->creating('path/to/template.twig', ['MyListener', 'creating']);
-	$engine->rendering('path/to/template.twig', ['MyListener', 'rendering']);
+$engine = $app->resolve('Autarky\TwigTemplating\TemplatingEngine');
+$engine->creating('path/to/template.twig', ['MyListener', 'creating']);
+$engine->rendering('path/to/template.twig', ['MyListener', 'rendering']);
 
-	class MyListener
+class MyListener
+{
+	public function creating(CreatingTemplateEvent $event)
 	{
-	    public function creating(CreatingTemplateEvent $event)
-	    {
-	        $context = $event->getTemplate()->getContext();
-	        $context->foo = 'bar';
-	    }
-	    public function rendering(RenderingTemplateEvent $event) {}
+		$context = $event->getTemplate()->getContext();
+		$context->foo = 'bar';
 	}
+	public function rendering(RenderingTemplateEvent $event) {}
+}
+```
 
 The type-hinting for the events is optional. You can also get the context by doing `$event->getContext()`. After setting `$context->foo = 'bar'`, the variable `foo` is now available in the Twig template.

@@ -67,20 +67,22 @@ If you want to rename or move any of these directories, make sure to update the 
 
 In the end, you don't actually need any of these files to run a simple Autarky application. If you want to, you can easily create a single-PHP-file application using Autarky by creating an `index.php` that looks like this:
 
-	<?php
-	require_once __DIR__.'/vendor/autoload.php';
+```php
+<?php
+require_once __DIR__.'/vendor/autoload.php';
 
-	$app = new Autarky\Application('production', [
-		new Autarky\Container\ContainerProvider,
-		new Autarky\Routing\RoutingProvider,
-	]);
-	$app->boot();
+$app = new Autarky\Application('production', [
+	new Autarky\Container\ContainerProvider,
+	new Autarky\Routing\RoutingProvider,
+]);
+$app->boot();
 
-	$app->route('GET', '/', function() {
-		return 'Hello world!';
-	});
+$app->route('GET', '/', function() {
+	return 'Hello world!';
+});
 
-	$app->run();
+$app->run();
+```
 
 This shows how easy it is to adjust the framework to your likings, with as much or little scaffolding and bootstrapping as you feel is optimal for your application.
 

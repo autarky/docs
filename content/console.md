@@ -4,17 +4,23 @@ Autarky ships with the Symfony 2 Console component for making CLI interfaces to 
 
 If you have an existing Command class, you can add it by adding a line to your `app/console.php` file:
 
-	$console->add(new MyNamespace\MyCommand(/* ... */));
+```php
+$console->add(new MyNamespace\MyCommand(/* ... */));
+```
 
 If your command has dependencies that should be resolved from the container, you can do the following:
 
-	$container = $app->getContainer();
-	$command = $container->resolve('MyNamespace\MyCommand');
-	$console->add($command);
+```php
+$container = $app->getContainer();
+$command = $container->resolve('MyNamespace\MyCommand');
+$console->add($command);
+```
 
 If you want your commands to lazily resolve dependencies for performance reasons, it's best to pass the `$container` instance to the command and then call `$container->resolve()` inside the command's `fire()` method.
 
 Service providers can configure the console application via their `bootConsole(ConsoleApplication $app)` method:
 
-	use Symfony\Component\Console\Application as ConsoleApplication;
-	public function bootConsole(ConsoleApplication $app) {}
+```php
+use Symfony\Component\Console\Application as ConsoleApplication;
+public function bootConsole(ConsoleApplication $app) {}
+```

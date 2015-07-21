@@ -2,9 +2,11 @@
 
 Autarky comes with a very small set of classes to manage PDO instances. The manager will read your `config/database` config file and translate those into lazily loaded PDO objects. You can retrieve a connection either via the ConnectionManager:
 
-	$manager = $container->resolve('Autarky\Database\ConnectionManager');
-	$manager->getPdo(); // get the default connection
-	$manager->getPdo('other_connection');
+```php
+$manager = $container->resolve('Autarky\Database\ConnectionManager');
+$manager->getPdo(); // get the default connection
+$manager->getPdo('other_connection');
+```
 
 The default connection is defined by the `connection` key in the config file.
 
@@ -16,11 +18,15 @@ Lastly there is the optional `pdo_init_commands` array, which should be an array
 
 In addition, any array keys not specifically mentioned here will simply be appended to the DSN. You can look up available DSN key/value pairs on the PDO driver page on php.net. For example, with Postgres, if you want to set the charset when connection, your PDO DSN should look like this:
 
-	new PDO("host=localhost;options='--client_encoding=UTF8'", $user, $pass);
+```php
+new PDO("host=localhost;options='--client_encoding=UTF8'", $user, $pass);
+```
 
 To emulate this with the connection config, simply add the following to a Postgres connection array:
 
-	'options' => "'--client_encoding=UTF8'",
+```php
+'options' => "'--client_encoding=UTF8'",
+```
 
 ### SQLite
 
@@ -34,7 +40,9 @@ You can specify `dbname`, `username`, `password`, `host` and `port`.
 
 `Database`, `username` and `password` should be specified. If you need to specify a port, simply add a comma behind the `Server` value:
 
-	'Server' => 'localhost,1521'
+```php
+'Server' => 'localhost,1521'
+```
 
 ### MySQL
 
