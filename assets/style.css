@@ -64,7 +64,8 @@ h1 code, h2 code, h3 code {
 pre {
 	max-width: 50em;
 }
-pre > code {
+pre > code,
+.codehilite pre {
 	display: block;
 	padding: 8px 12px;
 	background: #ddd;

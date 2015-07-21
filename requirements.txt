@@ -1,1 +1,2 @@
 Markdown>=2.4
+pygments>=2.0

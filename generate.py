@@ -4,7 +4,9 @@ from os import listdir
 from os.path import realpath, isdir, isfile, join, dirname, basename
 from shutil import copytree, rmtree
 from sys import argv
-from markdown import markdown
+
+import markdown
+md = markdown.Markdown(extensions=['fenced_code'])
 
 root_path = realpath(dirname(__file__))
 build_path = join(root_path, 'build')
@@ -54,7 +56,7 @@ def generate_html_files():
 		print('IN: ', path)
 		with open(path) as f:
 			md_content = f.read()
-		content = markdown(md_content)
+		content = md.convert(md_content)
 
 		header_id = basename(path).split('.')[0]
 		if 'index' in path:
