@@ -6,7 +6,11 @@ from shutil import copytree, rmtree
 from sys import argv
 
 import markdown
-md = markdown.Markdown(extensions=['fenced_code'])
+import md_extension.fenced_code
+md = markdown.Markdown(extensions=[
+	md_extension.codehilite.CodeHiliteExtension(),
+	md_extension.fenced_code.FencedCodeExtension(),
+])
 
 root_path = realpath(dirname(__file__))
 build_path = join(root_path, 'build')
